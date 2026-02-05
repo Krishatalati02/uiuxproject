@@ -1,197 +1,89 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Available Foods | Meal Bridge</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
   <style>
     body { background: linear-gradient(to bottom, #f8f9fa, #e9ecef); min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     .navbar { background: rgba(0,0,0,0.15); backdrop-filter: blur(8px); }
-    .food-card, .bulk-card { transition: all 0.25s ease; border: none; border-radius: 1rem; overflow: hidden; background: #fff; }
-    .food-card:hover, .bulk-card:hover { transform: translateY(-6px); box-shadow: 0 12px 25px rgba(0,0,0,0.15) !important; }
-    .food-card img, .bulk-card img { height: 180px; object-fit: cover; filter: brightness(0.95); }
-    .bulk-card { border: 2px solid #ffc107; }
-    .bulk-card .card-body { background: linear-gradient(135deg, #fff8e1, #fff3e0); }
-    .nav-tabs .nav-link.active { color: #d32f2f; border-color: #d32f2f; }
-    .quick-fact { background: #f8f9fa; border-radius: 1rem; padding: 1rem; border: 1px solid #dee2e6; }
+    .food-card { transition: all 0.25s ease; border: none; border-radius: 1rem; overflow: hidden; background: #fff; }
+    .food-card:hover { transform: translateY(-6px); box-shadow: 0 12px 25px rgba(0,0,0,0.15) !important; }
+    .food-card img { height: 180px; object-fit: cover; filter: brightness(0.95); }
   </style>
 </head>
+
 <body>
 
-  <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
-      <a class="navbar-brand text-success fw-bold fs-3" href="dashboard.html">Meal <span class="text-danger">Bridge</span></a>
-      <div class="collapse navbar-collapse justify-content-end">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="dashboard.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link active" href="food.html">Available Foods</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container">
+    <a class="navbar-brand text-success fw-bold fs-3" href="#">Meal <span class="text-danger">Bridge</span></a>
+  </div>
+</nav>
 
-  <section class="container my-5 pt-5">
-    <ul class="nav nav-tabs mb-4">
-      <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#individual">Individual Leftovers</button>
-      </li>
-      <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#bulk">Bulk Food Rescue</button>
-      </li>
-    </ul>
+<section class="container my-5 pt-5">
 
-    <div class="tab-content">
-      <div class="tab-pane fade show active" id="individual">
-        <div class="row mb-4 g-3">
-          <div class="col-md-4"><input type="search" id="searchInput" class="form-control" placeholder="Search food..." /></div>
-          <div class="col-md-4"><select id="sortSelect" class="form-select"><option>Sort by Expiry</option></select></div>
-          <div class="col-md-4"><select id="filterSelect" class="form-select"><option>All Foods</option></select></div>
-        </div>
-        <div id="foodCards" class="row g-4"></div>
-        <div id="noFoods" class="text-center py-5 d-none">
-          <h4 class="text-muted">No leftover food available right now.</h4>
-        </div>
-      </div>
+  <h4 class="mb-4 fw-bold text-success">Individual Leftover Food</h4>
 
-      <div class="tab-pane fade" id="bulk">
-        <div class="alert alert-warning d-flex align-items-center">
-          <i class="bi bi-truck me-2"></i>
-          <div><strong>Bulk Food Rescue:</strong> For temples, weddings, events.</div>
-        </div>
-        <div id="bulkCards" class="row g-4"></div>
-        <div id="noBulk" class="text-center py-5 d-none">
-          <h4 class="text-muted">No bulk donations available.</h4>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Modals -->
-  <div class="modal fade" id="foodDetailModal">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header position-relative p-0">
-          <img id="modalHeaderImg" src="" class="w-100" style="height: 200px; object-fit: cover;">
-          <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.5);"></div>
-          <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 p-3" data-bs-dismiss="modal"></button>
-          <div class="position-absolute bottom-0 start-0 p-4 text-white">
-            <h2 class="modal-title fw-bold mb-0" id="modalFoodName"></h2>
-          </div>
-        </div>
-        <div class="modal-body p-4">
-          <div class="row g-4">
-            <div class="col-md-5">
-              <img id="modalFoodImg" src="" class="img-fluid rounded-3 shadow-sm w-100" style="height: 260px; object-fit: cover;">
-              <div class="quick-fact mt-3">
-                <ul class="list-unstyled mb-0">
-                  <li class="d-flex justify-content-between mb-2"><strong>Quantity:</strong> <span id="modalQty">-</span></li>
-                  <li class="d-flex justify-content-between mb-2"><strong>Expires:</strong> <span id="modalExpiry" class="badge bg-danger fs-6">-</span></li>
-                  <li class="d-flex justify-content-between"><strong>Posted:</strong> <span id="modalPosted">-</span></li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-md-7">
-              <h4 class="text-success mb-3">Description</h4>
-              <p id="modalDesc" class="text-muted lh-lg">-</p>
-              <hr class="my-4">
-              <h5 class="text-primary mb-3">Contact Donor</h5>
-              <div class="bg-light rounded-3 p-3">
-                <p class="mb-2"><strong>Name:</strong> <span id="modalDonorName">-</span></p>
-                <p class="mb-2"><strong>Phone:</strong> <a id="modalDonorPhone" href="tel:" class="text-success">-</a></p>
-                <p class="mb-0"><strong>Email:</strong> <a id="modalDonorEmail" href="mailto:" class="text-success">-</a></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="row mb-4 g-3">
+    <div class="col-md-4"><input class="form-control" placeholder="Search food..." /></div>
+    <div class="col-md-4"><select class="form-select"><option>Sort by Expiry</option></select></div>
+    <div class="col-md-4"><select class="form-select"><option>All Foods</option></select></div>
   </div>
 
-  <div class="modal fade" id="bulkDetailModal">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header" style="background: linear-gradient(135deg, #ffb300, #ff8f00); color: white;">
-          <h5 class="modal-title">Bulk Food Rescue Request</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <div class="text-center mb-4">
-            <img id="bulkImg" src="" class="img-fluid rounded-3" style="height: 200px; object-fit: cover;">
+  <div class="row g-4">
+
+    <div class="col-md-6 col-lg-4">
+      <div class="card food-card h-100 shadow-sm">
+        <img src="veg5.jpg" class="card-img-top">
+        <div class="card-body d-flex flex-column p-3">
+          <h5><span class="badge bg-warning text-dark">Leftover</span><br>Veg Biryani</h5>
+          <p class="text-muted small">Qty: 2 plates | Expires: Today 9 PM</p>
+          <div class="mt-auto d-flex gap-2">
+            <button class="btn btn-outline-success flex-fill">Claim</button>
+            <button class="btn btn-outline-secondary flex-fill">View Details</button>
           </div>
-          <h4 id="bulkName" class="text-success"></h4>
-          <p id="bulkDesc" class="text-muted"></p>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item d-flex justify-content-between"><strong>Quantity:</strong> <span id="bulkQty">-</span></li>
-            <li class="list-group-item d-flex justify-content-between"><strong>Location:</strong> <span id="bulkLocation">-</span></li>
-            <li class="list-group-item d-flex justify-content-between"><strong>Available Until:</strong> <span id="bulkExpiry" class="badge bg-danger">-</span></li>
-            <li class="list-group-item d-flex justify-content-between"><strong>Contact:</strong> <a id="bulkPhone" href="tel:" class="text-success"></a></li>
-          </ul>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- PHP + JS DATA -->
-  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    const foods     = [];
-    const bulkFoods = [];
-
-    // Optional: Debug in browser console
-    console.log("Individual Foods:", foods);
-    console.log("Bulk Foods:", bulkFoods);
-
-    // Rest of your existing JavaScript remains 100% unchanged
-    function render(container, items, isBulk = false) {
-      if (items.length === 0) {
-        container.innerHTML = '';
-        document.getElementById(isBulk ? 'noBulk' : 'noFoods').classList.remove('d-none');
-        return;
-      }
-      document.getElementById(isBulk ? 'noBulk' : 'noFoods').classList.add('d-none');
-
-      container.innerHTML = items.map(item => `
-        <div class="col-md-6 col-lg-4">
-          <div class="card ${isBulk ? 'bulk-card' : 'food-card'} h-100 shadow-sm">
-            <img src="${item.img}" class="card-img-top" alt="${item.name}"
-                 onerror="this.src='https://via.placeholder.com/800x600/cccccc/999999?text=No+Image';">
-            <div class="card-body d-flex flex-column p-3">
-              <h5 class="card-title mb-2">
-                <span class="badge ${item.status==='claimed' ? 'bg-success' : (isBulk ? 'bg-warning' : 'bg-warning text-dark')}">
-                  ${item.status==='claimed' ? 'CLAIMED' : (isBulk ? 'BULK' : 'Leftover')}
-                </span><br>${item.name}
-                ${item.status==='claimed' ? `<br><small class="text-success">by ${item.claimer||'Someone'}</small>` : ''}
-              </h5>
-              <p class="card-text text-muted small mb-2">
-                ${isBulk ? `<i class="bi bi-geo-alt"></i> ${item.location}<br>` : `<strong>Qty:</strong> ${item.qty} | `}
-                <strong>Expires:</strong> ${item.expiry}
-              </p>
-
-              <div class="d-flex gap-2 mt-auto">
-                ${item.status==='available' || item.status==='pending' || !item.status ? `
-                  <button class="btn ${isBulk ? 'btn-warning' : 'btn-outline-success'} flex-fill claim-btn"
-                          data-id="${item.id}" data-bulk="${isBulk}">
-                    ${isBulk ? 'Coordinate' : 'Claim'}
-                  </button>` : ''}
-                <button class="btn btn-outline-secondary flex-fill view-btn"
-                        data-item='${JSON.stringify(item).replace(/'/g, "&apos;")}' data-bulk="${isBulk}">
-                  View Details
-                </button>
-              </div>
-            </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card food-card h-100 shadow-sm">
+        <img src="veg1.jpg" class="card-img-top">
+        <div class="card-body d-flex flex-column p-3">
+          <h5><span class="badge bg-warning text-dark">Leftover</span><br>Chapati & Dal</h5>
+          <p class="text-muted small">Qty: 5 chapatis | Expires: Today 8 PM</p>
+          <div class="mt-auto d-flex gap-2">
+            <button class="btn btn-outline-success flex-fill">Claim</button>
+            <button class="btn btn-outline-secondary flex-fill">View Details</button>
           </div>
         </div>
-      `).join('');
-    }
+      </div>
+    </div>
 
-    render(document.getElementById('foodCards'), foods);
-    render(document.getElementById('bulkCards'), bulkFoods, true);
+    <div class="col-md-6 col-lg-4">
+      <div class="card food-card h-100 shadow-sm">
+        <img src="veg2.jpg" class="card-img-top">
+        <div class="card-body d-flex flex-column p-3">
+          <h5>
+            <span class="badge bg-success">CLAIMED</span><br>
+            Aloo Paratha<br>
+            <small class="text-success">by NGO Volunteer</small>
+          </h5>
+          <p class="text-muted small">Qty: 3 plates | Expires: Tomorrow 10 AM</p>
+          <button class="btn btn-outline-secondary mt-auto">View Details</button>
+        </div>
+      </div>
+    </div>
 
- 
-  </script>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
