@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FAQ | Meal Bridge</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet" />
+
+  <style>
+    /* Full height & smooth scroll */
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      scroll-behavior: smooth;
+    }
+
+    /* Transparent navbar with blur */
+    .navbar {
+      background: rgba(0, 0, 0, 0.15) !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 0.75rem 0;
+    }
+
+    /* White nav links */
+    .nav-link {
+      color: #fff !important;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: #ffc107 !important;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+      padding: 100px 0 80px;
+      background: #f8f9fa;
+    }
+    .faq-header {
+      color: #198754;
+      font-weight: 700;
+      margin-bottom: 2rem;
+    }
+
+    .accordion-button {
+      font-weight: 600;
+      color: #212529;
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      transition: all 0.3s ease;
+    }
+    .accordion-button:not(.collapsed) {
+      color: #198754;
+      background-color: #e6f4ea;
+      box-shadow: none;
+    }
+    .accordion-button:focus {
+      box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+    }
+
+    .accordion-body {
+      background-color: #fff;
+      color: #495057;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    footer {
+      background: #212529;
+      color: #adb5bd;
+      padding: 3rem 0 1.5rem;
+    }
+    footer a {
+      color: #fff;
+      text-decoration: none;
+    }
+    footer a:hover {
+      color: #ffc107;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .faq-section {
+        padding: 80px 0 60px;
+      }
+      .faq-header {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand text-success fw-bold fs-3" href="index.html">Meal <span class="text-danger">Bridge</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.html#top">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="foods.php">Available Foods</a></li>
+          <li class="nav-item"><a class="nav-link active" href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="container">
+      <h2 class="text-center faq-header">Frequently Asked Questions</h2>
+      <div class="accordion" id="faqAccordion">
+
+        <div class="accordion-item border-0 shadow-sm mb-3 rounded">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#q1">
+              <i class="bi bi-question-circle-fill text-success me-2"></i>
+              How do I donate food?
+            </button>
+          </h2>
+          <div id="q1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Click <strong>"Donate Now"</strong> on the homepage or <a href="foods.php" class="text-success">Available Foods</a> page. Fill in your vegetarian meal details (quantity, type, expiry). We'll match you with a nearby NGO or individual.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-0 shadow-sm mb-3 rounded">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#q2">
+              <i class="bi bi-shield-check text-success me-2"></i>
+              Is it safe to accept meals?
+            </button>
+          </h2>
+          <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Yes. All meals are <strong>100% vegetarian</strong>, donor-verified, and include <strong>collection time & expiry</strong>. We encourage in-person pickup or trusted courier. Expired listings are auto-removed.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-0 shadow-sm mb-3 rounded">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#q3">
+              <i class="bi bi-clock-history text-success me-2"></i>
+              How is food expiry tracked?
+            </button>
+          </h2>
+          <div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Donors must specify <strong>safe consumption time</strong>. Listings show <span class="badge bg-warning text-dark">Expires in X hrs</span>. Our system auto-hides expired items to ensure safety.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-0 shadow-sm mb-3 rounded">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#q4">
+              <i class="bi bi-people-fill text-success me-2"></i>
+              Who can request food?
+            </button>
+          </h2>
+          <div id="q4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              <strong>Anyone</strong> — individuals, families, NGOs, shelters. Just fill the <strong>Request Form</strong> on the food listing. We prioritize urgent needs and local proximity.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-0 shadow-sm mb-3 rounded">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#q5">
+              <i class="bi bi-truck text-success me-2"></i>
+              Do you deliver?
+            </button>
+          </h2>
+          <div id="q5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              No. We connect donors and recipients directly. You arrange <strong>pickup or local delivery</strong>. This keeps it free, fast, and community-driven.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-light py-4 mt-auto">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-start gap-4">
+      <div>
+        <h4 class="text-danger">Meal Bridge</h4>
+        <p>Vegetarian food sharing: bridging hunger and hope.</p>
+      </div>
+      <div>
+        <h4 class="text-danger">Quick Links</h4>
+        <ul class="list-unstyled">
+          <li><a href="index.html#top" class="text-light text-decoration-none">Home</a></li>
+          <li><a href="foods.php" class="text-light text-decoration-none">Available Foods</a></li>
+          <li><a href="faq.html" class="text-light text-decoration-none">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-danger">Contact & Social</h4>
+        <ul class="list-unstyled">
+          <li>Email: support@mealbridge.com</li>
+          <li>+91-9876543210</li>
+          <li class="d-flex gap-2 mt-2">
+            <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733547.png" alt="Facebook" width="24"></a>
+            <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733558.png" alt="Twitter" width="24"></a>
+            <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733579.png" alt="Instagram" width="24"></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="text-center mt-3">
+      <small>© 2025 Meal Bridge. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

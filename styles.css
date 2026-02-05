@@ -1,0 +1,45 @@
+body {
+  background: #f4f7f6;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding-top: 70px; /* for fixed navbar */
+  color: #222;
+}
+
+.carousel-img {
+  height: 600px;
+  object-fit: cover;
+  width: 100%;
+  top:0px;
+}
+
+@media (max-width: 768px) {
+  .carousel-img {
+    height: 300px;
+  }
+}
+/* Smooth modal animation */
+.modal.fade .modal-dialog {
+  transition: transform .3s ease-out;
+  transform: translateY(-50px);
+}
+.modal.show .modal-dialog {
+  transform: none;
+}
+
+/* Hover effect on cards (optional) */
+.food-card {
+  transition: transform .2s, box-shadow .2s;
+}
+.food-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.12) !important;
+}
+
+/* Claim button pulse (optional) */
+#modalClaimBtn {
+  transition: all .3s;
+}
+#modalClaimBtn:hover {
+  transform: scale(1.03);
+}

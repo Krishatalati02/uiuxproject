@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard | Meal Bridge</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {background: linear-gradient(135deg, #f9fbe7, #e9f8ee); min-height: 100vh;}
+        .navbar {background: rgba(56,179,113,0.13); backdrop-filter: blur(12px);}
+        .hero {background: linear-gradient(135deg, #38b371, #2d8f5b); color:white; border-radius:1.5rem; padding:3rem; text-align:center;}
+        .choice-card {background:#fff; border-radius:1.2rem; padding:2rem; text-align:center;
+                      box-shadow:0 6px 20px rgba(0,0,0,.1); cursor:pointer; transition:.2s;}
+        .choice-card:hover{transform:translateY(-5px);box-shadow:0 12px 30px rgba(0,0,0,.15);}
+        .donate-form{background:#fff;border-radius:1.2rem;padding:2rem;
+                     box-shadow:0 6px 20px rgba(0,0,0,.1);margin-top:2rem;display:none;}
+        .btn-donate{background:linear-gradient(135deg,#dc3545,#c82333);border:none;color:white;}
+        .btn-donate:hover{background:linear-gradient(135deg,#c82333,#a71d2a);}
+        .donation-table img{max-height:80px;object-fit:cover;border-radius:.5rem;}
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg fixed-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand text-success fw-bold fs-3" href="dashboard.php">
+            Meal <span class="text-danger">Bridge</span>
+        </a>
+        <span class="ms-auto text-secondary fw-semibold">Welcome, tisha!</span>
+        <a href="logout.php" class="btn btn-outline-danger btn-sm ms-3">Logout</a>
+    </div>
+</nav>
+
+<div class="container" style="margin-top:110px;">
+
+    <div class="hero mb-5">
+        <h1 class="display-5 mb-3">Hi, tisha!</h1>
+        <p class="lead">What would you like to do today?</p>
+
+        <div class="row g-4 mt-3">
+            <div class="col-md-6">
+                <div class="choice-card text-success" onclick="window.location.href='foods.php'">
+                    <i class="bi bi-basket3-fill" style="font-size:3rem;"></i>
+                    <h4 class="mt-3">I Need Food</h4>
+                    <p class="text-muted small">Browse available meals near you</p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="choice-card text-danger" onclick="toggleDonateForm()">
+                    <i class="bi bi-heart-fill" style="font-size:3rem;"></i>
+                    <h4 class="mt-3">I Want to Donate</h4>
+                    <p class="text-muted small">Share your extra vegetarian food</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- ======================  DONATE FORM  ====================== -->
+    <div id="donateForm" class="donate-form mx-auto" style="max-width:600px;">
+        <h3 class="text-center text-danger mb-4">Donate Your Food</h3>
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="donate" value="1">
+
+            <div class="mb-3">
+                <label class="form-label">Food Name <span class="text-danger">*</span></label>
+                <input type="text" name="food_name" class="form-control" required maxlength="100">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Quantity (servings) <span class="text-danger">*</span></label>
+                <input type="number" name="quantity" class="form-control" min="1" max="500" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Best Before <span class="text-danger">*</span></label>
+                <input type="datetime-local" name="expiry" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Pickup Location <span class="text-danger">*</span></label>
+                <input type="text" name="location" class="form-control" required>
+            </div>
+
+            <!-- NEW: Contact Number -->
+            <div class="mb-3">
+                <label class="form-label">Contact Number <span class="text-danger">*</span></label>
+                <input type="tel" name="contact_no" class="form-control" 
+                       placeholder="+919876543210" required 
+                       pattern="^\+?[0-9]{10,15}$" 
+                       title="Enter 10–15 digits, optional +">
+                <small class="text-muted">Your number for pickup coordination</small>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Food Photo (optional)</label>
+                <input type="file" name="food_image" class="form-control" accept="image/*">
+                <small class="text-muted">Max 5 MB</small>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" name="is_bulk" id="is_bulk">
+                <label class="form-check-label" for="is_bulk">
+                    <strong>Bulk Donation</strong> (10+ servings)
+                </label>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-donate flex-fill py-2 fw-bold">List My Donation</button>
+                <button type="button" class="btn btn-outline-secondary flex-fill py-2" onclick="toggleDonateForm()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- ======================  MY DONATIONS  ====================== -->
+    <div class="mt-5">
+        <h3 class="text-success mb-4">My Donations</h3>
+
+                    <div class="table-responsive">
+                <table class="table table-hover align-middle donation-table">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Image</th>
+                            <th>Food</th>
+                            <th>Qty</th>
+                            <th>Contact</th> <!-- NEW -->
+                            <th>Expires</th>
+                            <th>Bulk?</th>
+                            <th>Status</th>
+                            <th>Listed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                                                    <tr>
+                                <td>
+                                                                            <img src="uploads/food_1762100434_2.jpg" alt="food">
+                                                                    </td>
+                                <td>Charity Event</td>
+                                <td>12 servings</td>
+                                <td>
+                                    <a href="tel:8833639832" class="text-success">
+                                        8833639832                                    </a>
+                                </td>
+                                <td>30 Dec 2025, 9:49 PM</td>
+                                <td><span class="badge bg-warning">Yes</span></td>
+                                <td>
+                                    <span class="badge bg-success">
+                                        Available                                    </span>
+                                </td>
+                                <td>02 Nov 2025, 9:50 PM</td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                                                            <img src="uploads/food_1762100338_2.jpg" alt="food">
+                                                                    </td>
+                                <td>Khichdi &amp; ButterMilk</td>
+                                <td>2 servings</td>
+                                <td>
+                                    <a href="tel:7793293740" class="text-success">
+                                        7793293740                                    </a>
+                                </td>
+                                <td>22 Dec 2025, 9:48 PM</td>
+                                <td>No</td>
+                                <td>
+                                    <span class="badge bg-secondary">
+                                        Claimed                                    </span>
+                                </td>
+                                <td>02 Nov 2025, 9:48 PM</td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                                                            <img src="uploads/food_1762099853_2.jpg" alt="food">
+                                                                    </td>
+                                <td>Gurudwara,Langar</td>
+                                <td>20 servings</td>
+                                <td>
+                                    <a href="tel:9379838970" class="text-success">
+                                        9379838970                                    </a>
+                                </td>
+                                <td>18 Dec 2025, 11:39 PM</td>
+                                <td><span class="badge bg-warning">Yes</span></td>
+                                <td>
+                                    <span class="badge bg-success">
+                                        Available                                    </span>
+                                </td>
+                                <td>02 Nov 2025, 9:40 PM</td>
+                            </tr>
+                                            </tbody>
+                </table>
+            </div>
+            </div>
+
+</div>
+
+<script>
+    function toggleDonateForm() {
+        const f = document.getElementById('donateForm');
+        f.style.display = (f.style.display === 'block') ? 'none' : 'block';
+    }
+
+    // Set minimum datetime to “now”
+    const exp = document.querySelector('input[name="expiry"]');
+    if (exp) {
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        exp.min = now.toISOString().slice(0,16);
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
